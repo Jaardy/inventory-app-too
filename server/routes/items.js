@@ -36,6 +36,21 @@ router.get("/:id", async (req, res, next) => {
 	}
 });
 
+// PATCH /api/items/:id
+router.patch("/:id", async (req, res, next) => {
+	try {
+		let item = await Item.findByPk(req.params.id);
+		if (item) {
+			item = await item.update(req.body);
+			res.send(item);
+		} else {
+			res.status(404).send({ error: "Not Found" });
+		}
+	} catch (error) {
+		next(error);
+	}
+});
+
 // DELETE /api/items/:id
 router.delete("/:id", async (req, res, next) => {
 	try {
